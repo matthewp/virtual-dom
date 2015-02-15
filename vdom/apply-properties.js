@@ -26,6 +26,10 @@ function applyProperties(node, props, previous) {
     }
 }
 
+var propWhiteList = {
+    'contentEditable': 'inherit'
+};
+
 function removeProperty(node, propName, propValue, previous) {
     if (previous) {
         var previousValue = previous[propName]
@@ -40,7 +44,11 @@ function removeProperty(node, propName, propValue, previous) {
                     node.style[i] = ""
                 }
             } else if (typeof previousValue === "string") {
-                node[propName] = ""
+                if(propWhiteList[propName]) {
+                    node[propName] = propWhiteList[propName];
+                } else {
+                    node[propName] = ""
+                }
             } else {
                 node[propName] = null
             }
